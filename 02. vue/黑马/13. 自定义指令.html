@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>vue 示例</title>
+    <!-- 1. 导入 vue 的包 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<!--
+    除了核心功能默认内置的指令（v-model 和 v-show），Vue 也允许注册自定义指令。
+        ❶ 全局指令语法：
+        // 注册一个全局自定义指令 `v-focus`
+        Vue.directive('focus', {
+            // inserted(钩子函数)：当被绑定的元素插入到 DOM 中时……
+            inserted: function (el) {
+                // 聚焦元素
+                el.focus()
+            }
+        })
+        
+        参数一：指令的名称，这里需要注意，在定义的时候，是不需要在名称前加 v- 前缀的，
+    但是在调用的时候，必须在指令名称前加入 v- 前缀；
+        参数二：是一个对象，这个对象中有一些指令相关的函数，这些函数在特定的阶段执行相关的操作
+
+        ❷ 局部指令语法（放置于 vue 实例中）：
+        directives: {
+            focus: {
+                // inserted(钩子函数)：当被绑定的元素插入到 DOM 中时……
+                inserted: function (el) {
+                    el.focus()
+                }
+            }
+        }
+
+        ❸ 如何使用自定义指令，在调用的时候，必须在指令名称前加上 -v 前缀，如：<input v-focus>
+
+    钩子函数：
+        一个指令定义对象可以提供如下几个钩子函数（可选），在每个函数中，第一个参数永远是 e1，
+    表示被绑定了指令的那个元素，这个 e1 参数是一个原生的 JS 对象；
+        
+        bind：只调用一次，指令第一次绑定到元素时调用，这里需要注意，元素刚绑定了指令的时候，还没有
+    插入到 DOM 中去，这时候，调用 focus 方法没有作用；
+
+        inserted：表示元素插入到 DOM 中的时候，会执行 inserted 函数，触发一次
+
+        updated：当 VNode 更新的时候，会执行 updated，可能会触发多次
+-->
+
+<body>
+    <div id="app">
+        <h3 v-color="'pink'" v-fontweight="900" v-fontsize="50">{{ msg }}</h3>
+    </div>
+</body>
+<script>
+
+    // 自定义一个设置字体颜色的指令
+    Vue.directive('color', {
+        // 样式只要通过指令绑定给了元素，不管这个元素有没有被插入到页面中去，这个元素肯定有了一个内联的样式
+        // 将来元素肯定会显示到页面中，浏览器的渲染引擎必然会解析样式，应用给这个元素
+        bind: function(e1, binding) {
+            e1.style.color = binding.value
+        }
+    })
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            msg: 'Hello World'
+        }
+    })
+</script>
+
+</html>
