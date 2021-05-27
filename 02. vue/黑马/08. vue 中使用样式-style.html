@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>vue 中使用样式：style</title>
+    <!-- 导入 vue 包 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+
+        <!-- 使用 v-bind:style={} 书写样式 -->
+        <h1 :style="{color: 'red'}">这是一个很大很大的 H1</h1>
+
+        <!-- 将样式对象定义在 data 中，并直接引用到 v-bind:style 中 -->
+        <h1 :style="styleObj">这是一个很大很大的 H1</h1>
+
+        <!-- 将样式对象定义在 data 中，通过数组引用多个样式对象 -->
+        <h1 :style="[styleObj, styleObj1]">这是一个很大很大的 H1</h1>
+      
+    </div>
+</body>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            styleObj: {color: 'red'},
+            styleObj1: {'font-style': 'italic'}
+        },
+        methods: {
+           
+        },
+    })
+</script>
+
+</html>

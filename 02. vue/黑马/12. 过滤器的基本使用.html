@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>v-if 和 v-show</title>
+    <!-- 导入 vue 包 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<!--
+    ❶、Vue.js 允许自定义过滤器，可被用于一些常见的文本格式化。过滤器可以用在两个地方：双花括号插值和 v-bind 表达式 (后者从 2.1.0+ 开始支持)。
+         在双花括号中 {{ message | capitalize }}
+         在 v-bind 表达式中 <div v-bind:id="rawId | formatId"></div>
+    
+    ❷、全局过滤器定义：
+    Vue.filter('capitalize', function (value) {
+        if (!value) return ''
+        value = value.toString()
+        return value.charAt(0).toUpperCase() + value.slice(1)
+    })
+    
+    ❸、私有过滤器定义（定义在组件的选项中）
+    var app = new Vue({
+        el: ..,
+        data: {},
+        methods: {}
+        filters: {
+            capitalize: function (value) {
+                if (!value) return ''
+                value = value.toString()
+                return value.charAt(0).toUpperCase() + value.slice(1)
+            }
+        }
+    }
+    
+    ❹、同时存在同名的全局过滤器和私有过滤器，采用私有过滤器，即"就近原则"
+    
+    ❺、过滤器可以串联：{{ message | filterA | filterB }}，按照先后顺序执行，filterA 的结果将作为 filterB 的参数
+
+    ❻、过滤器是可以传参数的
+-->
+
+<body>
+    <div id="app">
+        <!-- 将单纯替换为邪恶 -->
+        <p> {{ msg | msgFormat('邪恶')}}</p>
+    </div>
+</body>
+<script>
+
+    // 第一个参数的值永远是 msg
+    Vue.filter('msgFormat', function(msg, arg) {
+        return msg.replace(/单纯/g, arg)
+    })
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            msg: '曾经，我也是一个单纯的少年，单纯的我，傻傻的问，谁是世界上最单纯的男人'
+        },
+        methods: {
+
+        },
+        filters: {
+            msgFormat: function(msg) {
+                // 页面上显示为可爱，即过滤器采用"就近原则"
+                return msg.replace(/单纯/g, '可爱')
+            }
+        }
+    })
+</script>
+
+</html>

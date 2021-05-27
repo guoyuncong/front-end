@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>v-cloak v-text v-html 示例</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<!-- 
+    一. v-cloak 
+    ❶ 使用方式：<p v-cloak>{{ msg }}</p>
+    ❷ 网速较慢时，v-cloak 会出现差值表达式闪烁的现象，即会出现 {{ msg }} 文本，
+因为数据还没有展示出来，解决方法：使用属性选择器，设置 display: none，如下：
+    <style>
+        [v-cloak] {
+            display: none
+        }
+    </style>
+    二、v-text
+    ❶ v-text 使用方式 <p v-text="msg"></p>
+    ❷ 网速较慢时，不会出现闪烁情况；
+    ❸ 当在标签内加入其他文本时，数据加载完毕后，会将标签内的文本覆盖掉，
+如  <p v-text="msg">你好</p>，其显示的还是 {{ msg }}
+    ❹ 当放入的数据含有 HTML 标签时，会将该标签当做文本显示出来，如 msg：<p>你好</p>
+<p v-text="msg"></p> 将显示为 <p>你好</p>
+    三、v-html
+    ❶ v-html 使用方式：<p v-html="msg"></p>
+    ❷ 网速较慢时，不会出现闪烁情况；
+    ❸ 当在标签内加入其他文本时，数据加载完毕后，会将标签内的文本覆盖掉，
+如  <p v-html="msg">你好</p>，其显示的还是 {{ msg }}
+    ❹ 当放入的数据含有 HTML 标签时，浏览器会解析该标签
+    四、v-bind
+    v-bind 是 vue 中提供的用于绑定属性的指令，假如 app data 中存在 imgURL 属性，如：
+        <img v-bind:src="imgURL">
+    也可以简写成：
+        <img :src="imgURL">
+    五、v-on
+    v-on 是 vue 中提供的用于事件绑定，如：
+        <input type="button" value="按钮" v-on:@click="show">
+    也可以简写成
+        <input type="button" value="按钮" @click="show">
+-->
+
+<body>
+    <div id="app">
+        <!-- 使用 v-cloak 能够解决 插值表达式 闪烁的问题 -->
+        <p v-cloak>{{ msg }}</p>
+        <!-- 默认 v-text 是没有闪烁问题的 -->
+        <!-- 但是 v-text 会覆盖元素中原本的内容，但是 v-cloak 只会替换插值表达式这个占位符，不会把整个元素的内容清空 -->
+        <h4 v-text>{{ msg }}</h4>
+
+        <!-- v-bind 是 vue 中提供的用于绑定属性的指令 -->
+        <!-- v-bind 可以简写成 :属性，v-bind 中可以写合法的 js 表达式 -->
+        <input type="button" value="按钮" v-bind:title="mytitle">
+        <input type="button" value="按钮" title="mytitle">
+
+        <!-- vue 中提供了 v-on：事件绑定机制 -->
+        <input type="button" value="按钮" v-on:@click="show">
+        <!-- v-on 可以简写成 @ -->
+        <input type="button" value="按钮" @click="show">
+    </div>
+</body>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            msg: '欢迎学习 vue',
+            mytitle: '这是一个自定义的title'
+        },
+        methods: {
+            show: function () {
+                alert('hello')
+            }
+        }
+    })
+</script>
+
+</html>
