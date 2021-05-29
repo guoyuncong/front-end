@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>动画修改 v- 前缀</title>
+    <!-- 导入 vue 的包 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        /* v-enter：这是一个时间点，是进入之前元素的起始状态，此时还没有进入 */
+        /* v-leave-to：这是一个时间点，是动画离开之后，离开的终止状态，此时元素动画已经结束了 */
+        .v-enter, .v-leave-to {
+            opacity: 0;
+            transform: translateX(150px);
+        }
+
+        /* v-enter-active：入场动画的时间段，这是一个时间段 */
+        /* v-leave-active：离场动画的时间段，这是一个时间段 */
+        .v-enter-active, .v-leave-active {
+            transition: all 0.8s ease
+        }
+
+        /* 此处是 修改 v- 定义的动画 */
+        .my-enter, .my-leave-to {
+            opacity: 0;
+            transform: translateY(70px);
+        }
+        .my-enter-active, .my-leave-active {
+            transition: all 0.8s ease
+        }
+    </style>
+</head>
+<!--
+   当我们有两个/多个地方需要使用动画时，如果使用 .v- 那么他们势必是相同的，
+那我们如果根据需要自定义自己所需的动画切互相不会干扰呢，我们需要 v- 前缀。
+-->
+
+<body>
+    <div id="app">
+        <!-- 需求：点击按钮，让 h3 显示，再次点击 h3 隐藏 -->
+        <!-- 使用 transition 元素，将需要被动画控制的元素包裹起来 -->
+        <!-- transition 是 Vue 官方提供的 -->
+        <input type="button" value="toggle" @click="flag=!flag">
+        <transition>
+            <h3 v-if="flag">这是一个H3</h3>
+        </transition>
+    </div>
+
+    <hr/>
+
+    <div id="app2">
+        <input type="button" value="toggle2" @click="flag=!flag">
+        <!-- 通过使用 name 属性，我们就可以更改 v- 前缀，注意这时使用 v-xxx 就没有用了，需要更改为 name-xxx -->
+        <transition name="my">
+            <h3 v-if="flag">这是一个H3</h3>
+        </transition>
+    </div>
+
+    
+</body>
+<script>
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            'flag' : false
+        }
+    })
+
+    var app2 = new Vue({
+        el: '#app2',
+        data: {
+            'flag' : false
+        }
+    })
+</script>
+
+</html>
