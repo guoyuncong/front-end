@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>使用钩子函数实现半场动画：购物车小球从上到下</title>
+    <title>组件基础</title>
     <!-- 导入 vue 的包 -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
@@ -15,21 +15,37 @@
 
     组件可以扩充 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素，Vue.js 的编译器为它添加特殊
 功能。
-
-    组件的四种形式：
-    ❶ 全局组件，所有 vue 实例中都可以使用的组件；
-
-    
-    ❷
-    ❸
-    ❹
 -->
 
 <body>
     <div id="app">
+        <button-counter></button-counter>
     </div>
 </body>
 <script>
+
+    // ❶ 如果想要定义全局组件，语法：Vue.component('组件的名称', {})
+    // Vue.component('button-counter', {
+    //     data: function () {
+    //         return {
+    //         count: 0
+    //         }
+    //     },
+    //     template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+    // })
+
+    // ❷ 我们也可以通过对象字面量的形式，定义一个组件模板对象
+    var buttonCounter = {
+        data: function () {
+            return {
+                count: 0
+            }
+        },
+        template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>',
+    }
+    // 通过 Vue.component 把组件模板对象注册为一个全局的 Vue 组件，同时为这个组件起一个名称，
+    // 这个名称可以让我们通过标签的形式，在页面中直接引入这个组件
+    // Vue.component('button-counter', buttonCounter)
 
     var app = new Vue({
         el: '#app',
@@ -37,6 +53,10 @@
         },
         methods: {
 
+        },
+        // 同样我们也可以定义私有的组件
+        components: {
+            'buttonCounter': buttonCounter
         }
     })
 </script>
