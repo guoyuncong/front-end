@@ -11,8 +11,25 @@
 <!--
     这里的父组件指的是 Vue 实例，子组件指的是 Vue 实例中 components 中的组件；
     父组件向子组件传值，即 components中使用 Vue 实例中 data 中的数据；
+    子组件中默认是无法访问到父组件中的 data 上的数据和 methods 中的方法的；
 
-    子组件中默认是无法访问到父组件中的 data 上的数据和 methods 中的方法的
+    ❶ 一定要使用`props`属性来定义父组件传递过来的数据：
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        msg: '这是父组件中的消息'
+      },
+      components: {
+        son: {
+          template: '<h1>这是子组件 --- {{finfo}}</h1>',
+          props: ['finfo']
+        }
+      }
+    });
+    ❷ 使用`v-bind`或简化指令，将数据传递到子组件中，示例如下：
+        <div id="app">
+            <son :finfo="msg"></son>
+        </div>
 -->
 
 <body>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>使用 ref 获取 DOM 元素和组件</title>
+    <!-- 导入 vue 的包 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+
+<!--
+    使用 this.$refs 来获取元素和组件
+-->
+
+<body>
+    <div id="app">
+        <div>
+            <input type="button" value="获取元素内容" @click="getElement">
+        </div>
+        <!-- 使用 ref 获取元素 -->
+        <h1 ref="myh1">这是一个大大的 H1</h1>
+
+        <hr>
+
+        <!-- 使用 ref 获取组件 -->
+        <my-com ref="mycom"></my-com>
+    </div>
+
+</body>
+
+<script>
+
+    Vue.component('my-com', {
+        template: '<h5>这是一个子组件</h5>',
+        data() {
+            return {
+                name: '子组件'
+            }
+        }
+    });
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+
+        },
+        methods: {
+            getElement() {
+                // 通过 this.$refs 来获取元素
+                console.log(this.$refs.myh1.innerText);
+                // 通过 this.$refs 来获取组件
+                console.log(this.$refs.mycom.name);
+            }
+        },
+    })
+</script>
+
+</html>

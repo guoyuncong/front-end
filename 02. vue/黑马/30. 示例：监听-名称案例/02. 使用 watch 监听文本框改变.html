@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>使用 watch 监听</title>
+    <!-- 导入 vue 的包 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 引入 bootstrap -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+</head>
+
+<!--
+    如何监听到文本框的数据改变呢？
+-->
+
+<body>
+    <div id="app">
+        <input type="text" v-model="firstname"> +
+        <input type="text" v-model="lastname"> =
+        <input type="text" v-model="fullname">
+    </div>
+</body>
+
+<script>
+    // 创建 Vue 实例，得到 ViewModel
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            firstname: '',
+            lastname: '',
+            fullname: ''
+        },
+        methods: {},
+        // 使用 watch 属性，可以监视 data 中指定数据的变化，然后触发这个 watch 中对应的 function 处理函数
+        watch: { 
+            'firstname': function (newVal, oldVal) {
+                console.log('监视到了 firstname 的变化')
+                // this.fullname = this.firstname + '-' + this.lastname
+                console.log(newVal + ' --- ' + oldVal)
+                this.fullname = newVal + '-' + this.lastname
+            },
+            'lastname': function (newVal) {
+                this.fullname = this.firstname + '-' + newVal
+            }
+        }
+    });
+</script>
+
+</html>
